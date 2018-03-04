@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>测试ase</title>
+</head>
+<body>
+	<input type="text" class="cont"/>
+	<button class="button clic">点击加载</button>
+	<script type="text/javascript" src="aes.js"></script>
+	<!-- <script src="pad-zeropadding.js"></script> -->
+	<script src="jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		// b方法 加密aes 计算 params的值
+		
+	//JSON.stringify(j8b) => "{"ids":"[484730184]","br":128000,"csrf_token":""}" 
+	//{\"ids\":\"[484730184]\",\"br\":128000,\"csrf_token\":\"\"}
+	//第一个参数 d
+    //bnQ8I(["流泪", "强"]) => "010001" 第二个参数 e
+    //bnQ8I(Mc8U.md) => "00e0b509f6259df8642dbc35662901477df22677ec152b5ff68ace615bb7b725152b3ab17a876aea8a5aa76d2e417629ec4ee341f56135fccf695280104e0312ecbda92557c93870114af6c9d05c4f7f0c3685b7a46bee255932575cce10b424d813cfe4875d3e82047b97ddef52741d546b8e289dc6935b3ece0462db0a22b8e7"  第三个参数 f
+    //bnQ8I(["爱心", "女孩", "惊恐", "大笑"]) => "0CoJUm6Qyw8W8jud" 第三个参数也是固定的 g
+    // var obj = {s: "古风", limit: "8", csrf_token: ""}
+    //// var params1 = JSON.stringify(obj);
+    // var params1 = "{\"ids\":\"[484730184]\",\"br\":128000,\"csrf_token\":\"\"}"//没问题 是正确的主要是请求路径的问题，而且随机数可以固定 以及 JSON.stringify(obj)的结果和用字符分割解析的结果是一样的
+    //JSON.stringify(obj);
+    //search：{"s":"古风","limit":8,"csrf_token":""}
+//  		 {s: "古风", limit: 8}
+    // var obj = "{\"s\":\"古风\",\"limit\":\8,\"csrf_token\":\"\"}";
+    
+    // 获取 search的详细歌曲：
+//  "{"logs":"[{\"action\":\"searchkeywordclient\",\"json\":{\"type\":\"song\",\"keyword\":\"古\",\"offset\":0}}]","csrf_token":"202b1debc0adfdb967965f0fb24e9d17"}"
+//  
+// 
+//   提交地址：http://music.163.com/weapi/feedback/weblog
+//  提交的参数：{"logs":"[{\"action\":\"searchkeywordclient\",\"json\":{\"type\":\"song\",\"keyword\":\"古\",\"offset\":0}}]","csrf_token":"202b1debc0adfdb967965f0fb24e9d17"}
+//  验证状态API ===== feedback/weblog
+//  
+//  
+//  重合获取的
+//  
+//  由"http://music.163.com/weapi/cloudsearch/get/web"提交的参数获取的详情歌曲
+//  "{"hlpretag":"<span class=\"s-fc7\">","hlposttag":"</span>","s":"古风","type":"1","offset":"0","total":"true","limit":"30","csrf_token":"0b8cfb21763579fba9700da93ae70e9b"}"
+//  参数:limit的作用是获取当前的歌曲数量
+// 歌曲搜索获取 "{"s":"古","csrf_token":"df694b0644b47cc033c7b638b66f3748"}"
+    
+        
+    
+	$(".clic").click(function () {
+		// var value = $(".cont").val()
+		// console.log(value)
+		var obj = {"hlpretag":"<span class=\"s-fc7\">","hlposttag":"</span>","s":"古风","type":"1","offset":"0","total":"true","limit":"100","csrf_token":"0b8cfb21763579fba9700da93ae70e9b"}
+	    var params1 = JSON.stringify(obj);
+        // var params1 = obj;
+	    console.log(params1);
+	    var params2 = "010001";
+	    var params3 = "00e0b509f6259df8642dbc35662901477df22677ec152b5ff68ace615bb7b725152b3ab17a876aea8a5aa76d2e417629ec4ee341f56135fccf695280104e0312ecbda92557c93870114af6c9d05c4f7f0c3685b7a46bee255932575cce10b424d813cfe4875d3e82047b97ddef52741d546b8e289dc6935b3ece0462db0a22b8e7";
+	    // console.log()
+	    var params4 = "0CoJUm6Qyw8W8jud";
+	    // b(params1,"0CoJUm6Qyw8W8jud")
+	    var encode = d(params1,params2,params3,params4)
+	    var shuju = "params=" + encodeURIComponent(encode.encText) + "&encSecKey=" + encode.encSecKey
+	    var params = encode.encText;
+	    var encSecKey = encode.encSecKey;
+        var path = "/weapi/cloudsearch/get/web";
+		console.log(shuju)
+		$.ajax({
+			type:"get",
+			url:"http://localhost:4001/search",
+			data:{params:params,encSecKey:encode.encSecKey,path:path},
+			success:function (d) {
+				console.log(d.result)
+			}
+		})
+	})
+		
+	</script>
+</body>
+</html>

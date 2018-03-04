@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>测试网易登录</title>
+	<script type="text/javascript" src="jQuery.js"></script>
+</head>
+<body>
+
+	<button class="djsj">点击登录</button>
+
+	<script type="text/javascript">
+		$('.djsj').click(function () {
+			$.ajax({
+				url:'http://localhost:3000/v1/login',
+				method : 'get',
+				data:{email:"cuixu2765623%40163.com",password:'cuixu0123'}
+			}).then(function (d) {
+				console.log(d)
+			})
+		})
+		// url:'http://localhost:3000/v1/mine'
+	</script>
+</body>
+</html>
