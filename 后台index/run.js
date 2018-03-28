@@ -1,4 +1,4 @@
-const obj = {
+const encodeobj = {
     a : function (a) {
         var d, e, b = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", c = "";
         for (d = 0; a > d; d += 1)
@@ -43,5 +43,3 @@ const obj = {
         f
     }
 }
-
-module.exports = obj

@@ -25,18 +25,20 @@ app.all('*', function(req, res, next) {
 var cookie=null
 var user={}
 function createWebAPIRequest(path,method,data,resp) {
-		var postData = data
+		var postd = data
+		// var postd = "params=p%2B5Frg2GBoI0iByWGAwjbajiDMAwRBgAoEM%2BsNIsB3ynImlJGPRYSBEOSSUkLjnE47v9IQNP364%2BJlUWBpVDyAr6Jnkv1CUShdnZmXwdjHAPEkEHkOEApEgbTZI%2F9hhWW8CXw45gE5RM2CQKspaPQOHYgXjWFvlf%2BEVKuXX5z52GLLs3RrB7y411367pV7vjxKXFw9bI8UPxjXosfDTUq1j9QsA3W6z0v88pE16uEWV%2BByjbx5H6xLrSQNY9kfK%2BfdjW9AQqGfoDzwkk1xlAzqts61nHYcK1tkWB1R3v4afZ4URnMKecn3Mjvbnenyph&encSecKey=397cc8352ae7b9f1811af86afd3e9652cb6a5912b6722015f6836576403f4c055e969b69d859cfe61f6eadc3c76fcc13e1285d909b457d79a0afd81a44baa45ab5d7a80044223f3195acffe2d5e76a543ffadf18615ff5a23bbd32933118a4d1992c78812787723b5f381db7def32fbf66466526e5469dde2f025bc47f07562b"; 这种方法可以成功输出
+		console.log(postd)
 		var options = {
 		  hostname: 'music.163.com',
 		  port: 80,
 		  path: path,
 		  method: method,
 		  headers: {
-		  	'Referer': 'http://music.163.com',
+		  	// 'Referer': 'http://music.163.com',
 		    'Content-Type': 'application/x-www-form-urlencoded',
-		    'Connection': 'keep-alive',
-		    'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
-		    // 'Content-Length': Buffer.byteLength(postData)
+		    // 'Connection': 'keep-alive',
+		    // 'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 9_1 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Version/9.0 Mobile/13B143 Safari/601.1'
+		    'Content-Length': Buffer.byteLength(postd)
 		  }
 		};
 		var req = http.request(options, (res) => {
@@ -61,7 +63,7 @@ function createWebAPIRequest(path,method,data,resp) {
 		});
 
 		// 写入数据到请求主体
-		req.write(postData);
+		req.write(postd);
 		req.end();
 }
 // app.post('/search', (req,res)=> {
@@ -88,8 +90,9 @@ app.get('/search', (req,res,next)=> {
 	res.header("Access-Control-Allow-Origin","*")
 	var data = req.query
 	console.log(data)
-	var search = data.search
+	var search = data.shuju
 	var path = data.path
+	// var path = "/weapi/cloudsearch/get/web";
 	createWebAPIRequest(path,'POST',search,res)
 });
 app.get('/detail',(req,res)=>{
